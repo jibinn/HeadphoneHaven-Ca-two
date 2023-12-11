@@ -18,10 +18,13 @@ def addOrderItems(request):
     if len(orderItems) == 0:
         return Response({'details': 'No order items'}, status=status.HTTP_400_BAD_REQUEST)
     else:
+        # Handle missing paymentMethod key with a default value
+        payment_method = data.get('paymentMethod', 'DefaultPaymentMethod')
+
         # CREATE ORDER
         order = Order.objects.create(
             user=user,
-            paymentMethod=data['paymentMethod'],
+            paymentMethod=payment_method,  # Use the variable here
             taxPrice=data['taxPrice'],
             shippingPrice=data['shippingPrice'],
             totalPrice=data['totalPrice']
@@ -61,36 +64,37 @@ def addOrderItems(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])  
 def getMyOrders(request):
-    user=request.user
-    orders=Order.objects.filter(user=user)
-    serializer=OrderSerializer(orders,many=True)
+    user = request.user
+    orders = Order.objects.filter(user=user)
+    serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
+
 
 
 @api_view(['GET'])
 @permission_classes([IsAdminUser])  
-def getMyOrders(request):
-    orders=Order.objects.all()
-    serializer=OrderSerializer(orders,many=True)
+def getAllOrders(request):
+    orders = Order.objects.all()
+    serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])   
-def getOrderById(request,pk): 
-    
-    user=request.user
+def getOrderById(request, pk): 
+    user = request.user
     try:
-         order=Order.objects.get(_id=pk)  
-         if user.is_staff or order.user == user:
-           serializer =OrderSerializer(order,many=False) 
-           return Response(serializer.data)
-         else:
-            Response({'detail':'Not authorized to view the order'},status=status.HTTP_400_BAD_REQUEST)
-    
-    except:
-        return Response({'deatil':'Order does not exist'},status=status.HTTP_400_BAD_REQUEST)
+        order = Order.objects.get(_id=pk)  
+        if user.is_staff or order.user == user:
+            serializer = OrderSerializer(order, many=False) 
+            return Response(serializer.data)
+        else:
+            return Response({'detail': 'Not authorized to view the order'}, status=status.HTTP_403_FORBIDDEN)
+    except Order.DoesNotExist:
+        return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
  
  
     
@@ -112,4 +116,5 @@ def updateOrderToDelivered(request,pk):
     order.deliveredAt=datetime.now()
     order.save()
     return Response('order was delivered')    
+    
     
