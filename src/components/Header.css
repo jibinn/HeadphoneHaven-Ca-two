@@ -1,0 +1,39 @@
+/* Header.css */
+
+/* Navbar Styling */
+.navbar {
+    background-color: #5a016a; /* Dark Background Color */
+  }
+  
+  .navbar-brand {
+    color: #fff; /* White Text Color */
+  }
+  
+  /* Navbar Links Styling */
+  .navbar-nav .nav-link {
+    color: #fff; /* White Text Color */
+    margin: 0 10px;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: #a1ecf8; /* Hover Color */
+  }
+  
+  /* Navbar Dropdown Styling */
+  .navbar-nav .nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .dropdown-menu {
+    background-color: #343a40; /* Dark Background Color */
+  }
+  
+  .dropdown-item {
+    color: #1a88fd; /* White Text Color */
+  }
+  
+  .dropdown-item:hover {
+    background-color: #17a2b8; /* Hover Color */
+    color: #fff; /* White Text Color */
+  }
+  

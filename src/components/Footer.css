@@ -1,0 +1,52 @@
+/* Footer.css */
+
+/* Change background color to your preferred color */
+/* Use flex-based layout to stick the footer to the bottom */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* This ensures that the main content takes up remaining space */
+}
+
+footer {
+    background-color: #5a016a; 
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+}
+
+footer, footer p  {
+    color: #fff;
+}
+
+/* Style for social icons */
+.social-icons a {
+    color: #fff;
+}
+
+.social-icons a:hover {
+    color: #f8f9fa; /* Change to your preferred color on hover */
+}
+
+/* Style for quick links */
+ul.list-unstyled a {
+    color: #fff;
+}
+
+ul.list-unstyled a:hover {
+    color: #f8f9fa; /* Change to your preferred color on hover */
+}
+
+footer h5 {
+    color: #fff; /* Set the color to white */
+}
