@@ -107,49 +107,4 @@ def uploadimage(request):
     product.save()
     return Response('Image was Uploaded')
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def createProducReview(request, pk):
-    user = request.user
-    product = Product.objects.get(_id=pk)
-    data = request.data
-    print("data:", data)
-    print("rating:", data.get('rating'))
-
-    if 'rating' not in data:
-        content = {'detail': 'Rating field is missing'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-    
-    # 1 review already exists
-    alreadyExists = product.review_set.filter(user=user).exists()
-    if alreadyExists:
-        content = {'detail': 'Product already reviewed'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-
-    
-    # 2 no rating or 0 
-    elif float(data['rating']) == 0.0 or float(data['rating']) == 0.5 or float(data['rating']) == 5.0:
-        content = {'detail': 'Please select a rating'}
-        return Response(content, status=status.HTTP_400_BAD_REQUEST)
-    
-    # 3 create Review
-    else:
-        review = Review.objects.create(
-            user=user,
-            product=product,
-            name=user.first_name,
-            rating=data['rating'],
-            comment=data['comment'],
-        )
-        reviews = product.review_set.all()
-        product.numReviews = len(reviews)
-        
-        total = 0
-        for i in reviews:
-            total += i.rating
-            
-        product.rating = total / len(reviews)
-        product.save()
-        
-        return Response('Review was added')
 
