@@ -1,1 +1,44 @@
+/* LoginScreen.css */
+
+.login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h1 {
+    text-align: center;
+    color: #e60000;
+}
+
+.login-container .form-control {
+    margin-bottom: 15px;
+}
+
+#yourButtonId.submit-button {
+    background-color: #86019d;
+    border: 1px solid #213c5a;
+}
+
+.login-container .submit-button:hover {
+    background-color: #0056b3;
+    border: 1px solid #0056b3;
+}
+
+.login-container .py-3 {
+    text-align: center;
+}
+
+.login-container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
 
