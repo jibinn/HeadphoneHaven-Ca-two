@@ -40,19 +40,28 @@ def getTopProducts(request):
     return Response(serializer.data)
 
 
+# Retrieve a single product by its primary key
 @api_view(['GET'])
 def getProduct(request, pk):
     try:
+        # Try to retrieve the product with the specified primary key
         product = Product.objects.get(_id=pk)
+        # Serialize the product using the ProductSerializer
         serializer = ProductSerializer(product, many=False)
+        # Return the serialized product data in the response
         return Response(serializer.data)
     except Product.DoesNotExist:
+        # If the product does not exist, return a 404 Not Found response
         return Response({'detail': 'Product not found.'}, status=status.HTTP_404_NOT_FOUND)
 
+# Create a new product (accessible only to admin users)
 @api_view(['POST'])
 @permission_classes([IsAdminUser])
 def createProduct(request):
+    # Get the current user making the request
     user = request.user
+
+    # Create a new product with default values
     product = Product.objects.create(
         user=user,
         name='sample name',
@@ -63,7 +72,10 @@ def createProduct(request):
         description=''
     )
 
+    # Serialize the newly created product using the ProductSerializer
     serializer = ProductSerializer(product, many=False)
+    
+    # Return the serialized product data in the response
     return Response(serializer.data)
 
 
@@ -119,6 +131,7 @@ def createProducReview(request, pk):
     if alreadyExists:
         content = {'detail': 'Product already reviewed'}
         return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
     
     # 2 no rating or 0 
     elif float(data['rating']) == 0.0 or float(data['rating']) == 0.5 or float(data['rating']) == 5.0:
